@@ -1,6 +1,6 @@
 import usb_hid
-import keypad
 import supervisor
+import keypad
 
 
 class HoldTap:
@@ -26,7 +26,7 @@ class Keeb:
     """The main class representing the keyboard itself."""
 
 
-    def __init__(self, matrix, cols, rows):
+    def __init__(self, matrix, keypad, cols, rows):
         """
         Creates a keyboard. ``matrix`` is a tuple of tuples of
         tuples defining the layers, rows and individual key scan
@@ -35,8 +35,8 @@ class Keeb:
         """
 
         self.matrix = matrix
-        self.keypad = keypad.KeyMatrix(rows, cols)
-        self.width = len(cols)
+        self.width = 8
+        self.keypad = keypad
         self.keyboard_device = None
         self.media_device = None
         for device in usb_hid.devices:
@@ -156,6 +156,7 @@ class Keeb:
                 if keys < 6:
                     report_no_mod_keys[keys] = code & 0x00ff
                 keys += 1
+        print(report)
         self.keyboard_device.send_report(report)
 
     def send_nkro_report(self, pressed_keys):
@@ -182,10 +183,12 @@ class Keeb:
 
     def run(self):
         """Runs the main loop."""
-        if usb_hid.get_boot_device() == 1:
-            send_report = self.send_boot_report
-        else:
-            send_report = self.send_nkro_report
+        send_report = self.send_boot_report
+##        if usb_hid.get_boot_device() == 1:
+##            send_report = self.send_boot_report
+##        else:
+###            send_report = self.send_nkro_report
+
 
         last_pressed_keys = set()
         anim_delay = 0
@@ -198,3 +201,4 @@ class Keeb:
             if anim_delay > 7:
                 self.animate()
                 anim_delay = 0
+
