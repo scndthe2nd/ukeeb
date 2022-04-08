@@ -54,8 +54,8 @@ D10
 ## This identifies characteristics of how the keypad works; either matrix, direct keys, or by using key matrix
 KEYPAD=keypad.ShiftRegisterKeys(
     clock=board.D3, 
-    data=board.D4, 
-    latch=board.D2, 
+    data=board.D4,
+    latch=board.D2,
     key_count=8, 
     value_when_pressed=False)
 
