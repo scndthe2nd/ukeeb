@@ -4,52 +4,70 @@ import time
 import keypad
 import usb_hid
 import supervisor
-
+import ukeeb.scan_codes as scan_codes
 import ukeeb.ukeeb as ukeeb
 from micropython import const
 
 
+'''
+## Output assignments on the SPAM LIKELY Rev 0 keyboard
+Shift Controller pins
+d2 - LC 
+d3 - CLK
+d4 - Out
 
-KEYPAD=keypad.ShiftRegisterKeys(clock=board.D6, data=board.D7, latch=board.D8, key_count=8, value_when_pressed=False)
+Thumbstick
+A0 - X axis
+A1 - Y axis
+
+5 way 
+d5 - Up
+d8 - Left
+d9 - Down
+d0 - Center
+d1 - Right
+
+I2C 0
+SDA
+SCL
+
+I2C 1
+SDA1 - D6
+SCL1 - D7
+
+SD Card
+D10
+MOSI
+SCK
+MISO
+
+Extra Pins
+A2
+A3
+SCK
+MISO
+MOSI
+D10
+
+'''
+
+## This identifies characteristics of how the keypad works; either matrix, direct keys, or by using key matrix
+KEYPAD=keypad.ShiftRegisterKeys(
+    clock=board.D3, 
+    data=board.D4, 
+    latch=board.D2, 
+    key_count=8, 
+    value_when_pressed=False)
 
 
-
-KEY_NAMES = (
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "Return",
-    "7",
-)
-
-
-
-
-
-
-
-
-#keypad = keypad.ShiftRegisterKeys(
-#    clock=board.D7,
-#    data=board.D6,
-#    latch=board.D8,
-#    key_count=8,
-#    value_when_pressed=False,
-#)
-
-#events = keypad.events
-
-
-
-
+## Columns and Rows that are used when keypad is set to matrix.
 ROWS = ("a",)
 COLS = ("a",)
 
 Keeb = ukeeb.Keeb
 
+
+## Identifies USB_HID output values for each key scan code
 _A = const(4)
 _B = const(5)
 _C = const(6)
@@ -145,10 +163,6 @@ _RSH = const(0x2000) # Right shift
 _RAL = const(0x4000) # Right alternate
 _RSP = const(0x8000) # Right super
 
-_L1 = ukeeb.Layer(1)
-_L2 = ukeeb.Layer(2)
-_L3 = ukeeb.Layer(3)
-
 _MT = const(-226) # Mute
 _VU = const(-233) # Volume up
 _VD = const(-234) # Volume down
@@ -162,7 +176,14 @@ _PP = const(-205) # Play/pause
 
 
 
+_L1 = ukeeb.Layer(1) ## Numbers
+_L2 = ukeeb.Layer(2) ## Symbols
+_L3 = ukeeb.Layer(3) ## Commands
+
+## Defines the actual matrix of keys
+
 MATRIX = (
+    (_A,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL),
     (_SCL,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL),
     (_SCL,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL),
 ),
