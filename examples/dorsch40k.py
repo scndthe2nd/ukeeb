@@ -1,5 +1,5 @@
-import ukeeb
-from ukeeb import HoldTap as HT
+import ukeeb.ukeeb as ukeeb
+from ukeeb.ukeeb import HoldTap as HT
 from micropython import const
 import board
 import adafruit_dotstar as dotstar

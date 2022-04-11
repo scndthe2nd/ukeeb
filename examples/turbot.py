@@ -1,5 +1,6 @@
 import board
-import ukeeb
+import ukeeb.ukeeb as ukeeb
+from ukeeb.ukeeb import HoldTap as HT
 from micropython import const
 
 

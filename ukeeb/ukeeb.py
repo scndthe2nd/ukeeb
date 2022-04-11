@@ -26,7 +26,7 @@ class Keeb:
     """The main class representing the keyboard itself."""
 
 
-    def __init__(self, matrix, keypad, cols, rows):
+    def __init__(self, matrix, keypad, key_count, cols, rows):
         """
         Creates a keyboard. ``matrix`` is a tuple of tuples of
         tuples defining the layers, rows and individual key scan
@@ -35,7 +35,7 @@ class Keeb:
         """
 
         self.matrix = matrix
-        self.width = 8
+        self.width = key_count
         self.keypad = keypad
         self.keyboard_device = None
         self.media_device = None

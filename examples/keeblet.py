@@ -1,5 +1,5 @@
 import board
-import ukeeb
+import ukeeb.ukeeb as ukeeb
 from micropython import const
 
 ROWS = (board.D10, board.SCL)

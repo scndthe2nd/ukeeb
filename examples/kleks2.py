@@ -1,6 +1,6 @@
 import board
-import ukeeb
-from ukeeb import HoldTap as HT
+import ukeeb.ukeeb as ukeeb
+from ukeeb.ukeeb import HoldTap as HT
 from micropython import const
 
 ROWS = (board.A3, board.A4, board.A1, board.A6)

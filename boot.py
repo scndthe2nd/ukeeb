@@ -29,6 +29,7 @@ GAMEPAD_REPORT_DESCRIPTOR = bytes((
     0x81, 0x02,  #   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
     0xC0,        # End Collection
 ))
+'''
 gamepad = usb_hid.Device(
     report_descriptor=GAMEPAD_REPORT_DESCRIPTOR,
     usage_page=0x01,           # Generic Desktop Control
@@ -37,7 +38,7 @@ gamepad = usb_hid.Device(
     in_report_lengths=(6,),    # This gamepad sends 6 bytes in its report.
     out_report_lengths=(0,),   # It does not receive any reports.
 )
-
+'''
 usb_hid.enable(
     (usb_hid.Device.KEYBOARD,
      usb_hid.Device.MOUSE,

@@ -1,70 +1,71 @@
+## Import Modules you'll be using here.
+
 import board
 import keypad
 import time
 import keypad
-import usb_hid
 import supervisor
-import ukeeb.scan_codes as scan_codes
 import ukeeb.ukeeb as ukeeb
 from micropython import const
 
 
+## REQUIRED VARIABLES
+# These are blank placeholders in case the matrix file doesn't otherwise include them.
+## KEYPAD
+KEYPAD="keypad"
+
+## KEY_COUNT
+KEY_COUNT=0
+
+## ROWS
+ROWS = ("a",)
+
+## COLS
+COLS = ("a",)
+
+## MATRIX
+MATRIX = ((()))
+
+## Set up keeb stuff
+Keeb = ukeeb.Keeb
+
+
+## This identifies characteristics of how the keypad works; 
+## either matrix, direct keys, or by using shift registers
+
+
+
+# Keypad using Keys
 '''
-## Output assignments on the SPAM LIKELY Rev 0 keyboard
-Shift Controller pins
-d2 - LC 
-d3 - CLK
-d4 - Out
 
-Thumbstick
-A0 - X axis
-A1 - Y axis
-
-5 way 
-d5 - Up
-d8 - Left
-d9 - Down
-d0 - Center
-d1 - Right
-
-I2C 0
-SDA
-SCL
-
-I2C 1
-SDA1 - D6
-SCL1 - D7
-
-SD Card
-D10
-MOSI
-SCK
-MISO
-
-Extra Pins
-A2
-A3
-SCK
-MISO
-MOSI
-D10
+MISSING INFORMATION
 
 '''
 
-## This identifies characteristics of how the keypad works; either matrix, direct keys, or by using key matrix
+# Keypad using Matrix
+'''
+ROWS = (board.A3, board.A4, board.A1, board.A6)
+COLS = (board.MISO, board.SCK, board.MOSI, board.D6, board.A0, board.AREF,
+        board.A2, board.A5, board.TX, board.RX, board.D9, board.D5)
+KEYPAD = keypad.KeyMatrix(rows, cols)
+
+'''
+
+#Keypad using Shift registers
+KEY_COUNT=8
+
 KEYPAD=keypad.ShiftRegisterKeys(
     clock=board.D3, 
     data=board.D4,
     latch=board.D2,
-    key_count=8, 
-    value_when_pressed=False)
+    key_count=KEY_COUNT, 
+    value_when_pressed=False
+)
 
 
 ## Columns and Rows that are used when keypad is set to matrix.
-ROWS = ("a",)
-COLS = ("a",)
 
-Keeb = ukeeb.Keeb
+
 
 
 ## Identifies USB_HID output values for each key scan code
@@ -175,7 +176,6 @@ _ST = const(-183) # Stop track
 _PP = const(-205) # Play/pause
 
 
-
 _L1 = ukeeb.Layer(1) ## Numbers
 _L2 = ukeeb.Layer(2) ## Symbols
 _L3 = ukeeb.Layer(3) ## Commands
@@ -183,7 +183,7 @@ _L3 = ukeeb.Layer(3) ## Commands
 ## Defines the actual matrix of keys
 
 MATRIX = (
-    (_A,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL),
-    (_SCL,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL),
-    (_SCL,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL,_SCL),
+    (_L,_B,_C,_P,_R,_F,_G,_H),
+
 ),
+
