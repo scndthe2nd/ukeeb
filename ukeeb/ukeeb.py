@@ -2,7 +2,6 @@ import usb_hid
 import supervisor
 import keypad
 
-
 class HoldTap:
     """
     A special behavior, that lets you send a modifier when a key
@@ -13,7 +12,6 @@ class HoldTap:
         self.tap = tap
         self.layer = 0
 
-
 class Layer:
     """
     A special behavior that lets you switch layers.
@@ -21,10 +19,10 @@ class Layer:
     def __init__(self, layer):
         self.layer = layer
 
-
 class Keeb:
-    """The main class representing the keyboard itself."""
-
+    """
+    The main class representing the keyboard itself.
+    """
 
     def __init__(self, matrix, keypad, key_count, cols, rows):
         """
@@ -35,7 +33,7 @@ class Keeb:
         """
 
         self.matrix = matrix
-        self.width = key_count
+        self.width = 8
         self.keypad = keypad
         self.keyboard_device = None
         self.media_device = None
@@ -54,7 +52,9 @@ class Keeb:
         self.release_next = None
 
     def animate(self):
-        """Override this to do something on every animation frame."""
+        """
+        Override this to do something on every animation frame.
+        """
 
     def scan(self):
         """
@@ -82,10 +82,14 @@ class Keeb:
                 self.release(x, y)
 
     def animate(self):
-        """Override this to do something on every animation frame."""
+        """
+        Override this to do something on every animation frame.
+        """
 
     def press(self, x, y, timestamp):
-        """Called when a keys is pressed."""
+        """
+        Called when a keys is pressed.
+        """
 
         if self.last_held:
             if not self.last_held_active:
@@ -111,7 +115,9 @@ class Keeb:
         self.pressed_keys.add(key)
 
     def release_all(self, x, y):
-        """A helper to make sure keys from all layers are released."""
+        """
+        A helper to make sure keys from all layers are released.
+        """
 
         for layer in self.matrix:
             key = layer[y][x]
@@ -132,23 +138,28 @@ class Keeb:
                 pass
 
     def release(self, x, y):
-        """Called when a key is released."""
+        """
+        Called when a key is released.
+        """
 
         self.release_all(x, y)
         if (self.last_held is not None and
-                self.last_held == self.matrix[self.last_held.layer][y][x]):
+                 self.last_held == self.matrix[self.last_held.layer][y][x]):
             self.pressed_keys.add(self.last_held.tap)
             self.release_next = self.last_held.tap
             self.last_held = None
             self.last_held_active = False
 
     def send_boot_report(self, pressed_keys):
-        """Sends the USB HID keyboard report."""
+        """
+        Sends the USB HID keyboard report.
+        """
 
         report = bytearray(8)
         report_mod_keys = memoryview(report)[0:1]
         report_no_mod_keys = memoryview(report)[1:]
-        keys = 0
+        keys=0
+        print(pressed_keys)
         for code in pressed_keys:
             if code & 0xff00:
                 report_mod_keys[0] |= (code & 0xff00) >> 8
@@ -156,11 +167,14 @@ class Keeb:
                 if keys < 6:
                     report_no_mod_keys[keys] = code & 0x00ff
                 keys += 1
-        print(report)
         self.keyboard_device.send_report(report)
 
+
+
     def send_nkro_report(self, pressed_keys):
-        """Sends the USB HID NKRO keyboard report."""
+        """
+        Sends the USB HID NKRO keyboard report.
+        """
 
         report = bytearray(16)
         report_mod_keys = memoryview(report)[0:1]
@@ -173,7 +187,9 @@ class Keeb:
         self.keyboard_device.send_report(report)
 
     def send_media_report(self, code):
-        """Sends the USB HID media report."""
+        """
+        Sends the USB HID media report.
+        """
 
         if not self.media_device:
             return
@@ -182,7 +198,9 @@ class Keeb:
         self.media_device.send_report(report)
 
     def run(self):
-        """Runs the main loop."""
+        """
+        Runs the main loop.
+        """
         send_report = self.send_boot_report
 ##        if usb_hid.get_boot_device() == 1:
 ##            send_report = self.send_boot_report
@@ -201,4 +219,3 @@ class Keeb:
             if anim_delay > 7:
                 self.animate()
                 anim_delay = 0
-

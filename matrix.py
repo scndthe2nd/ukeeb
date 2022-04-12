@@ -24,9 +24,9 @@ ROWS = ("a",)
 COLS = ("a",)
 
 ## MATRIX
-MATRIX = ((()))
+MATRIX = (((),),)
 
-## Set up keeb stuff
+## Set up keeb stuff for layers
 Keeb = ukeeb.Keeb
 
 
@@ -59,8 +59,7 @@ KEYPAD=keypad.ShiftRegisterKeys(
     data=board.D4,
     latch=board.D2,
     key_count=KEY_COUNT, 
-    value_when_pressed=False
-)
+    value_when_pressed=False)
 
 
 ## Columns and Rows that are used when keypad is set to matrix.
@@ -164,6 +163,10 @@ _RSH = const(0x2000) # Right shift
 _RAL = const(0x4000) # Right alternate
 _RSP = const(0x8000) # Right super
 
+_L1 = ukeeb.Layer(1)
+_L2 = ukeeb.Layer(2)
+_L3 = ukeeb.Layer(3)
+
 _MT = const(-226) # Mute
 _VU = const(-233) # Volume up
 _VD = const(-234) # Volume down
@@ -175,15 +178,13 @@ _PT = const(-182) # Prev track
 _ST = const(-183) # Stop track
 _PP = const(-205) # Play/pause
 
-
-_L1 = ukeeb.Layer(1) ## Numbers
-_L2 = ukeeb.Layer(2) ## Symbols
-_L3 = ukeeb.Layer(3) ## Commands
-
 ## Defines the actual matrix of keys
 
 MATRIX = (
-    (_L,_B,_C,_P,_R,_F,_G,_H),
+  (  _W,   _E,  _R,   _T, _Y,  _U,  _I,  _O),
+  (  _W,   _E,  _R,   _T, _Y,  _U,  _I,  _O),
 
-),
+), (
+  (_S,   _D,  _F,   _G,  _H,  _J,  _K,  _L,),
+), 
 

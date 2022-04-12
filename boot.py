@@ -3,7 +3,7 @@ import usb_hid
 
 # This is only one example of a gamepad descriptor.
 # It may not suit your needs, or be supported on your host computer.
-
+'''
 GAMEPAD_REPORT_DESCRIPTOR = bytes((
     0x05, 0x01,  # Usage Page (Generic Desktop Ctrls)
     0x09, 0x05,  # Usage (Game Pad)
@@ -29,7 +29,7 @@ GAMEPAD_REPORT_DESCRIPTOR = bytes((
     0x81, 0x02,  #   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
     0xC0,        # End Collection
 ))
-'''
+
 gamepad = usb_hid.Device(
     report_descriptor=GAMEPAD_REPORT_DESCRIPTOR,
     usage_page=0x01,           # Generic Desktop Control
@@ -42,6 +42,6 @@ gamepad = usb_hid.Device(
 usb_hid.enable(
     (usb_hid.Device.KEYBOARD,
      usb_hid.Device.MOUSE,
-     usb_hid.Device.CONSUMER_CONTROL,
+     usb_hid.Device.CONSUMER_CONTROL
     )
 )
